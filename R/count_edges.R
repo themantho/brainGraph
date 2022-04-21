@@ -67,7 +67,7 @@ count_inter <- function(g, group=c('lobe', 'hemi', 'network', 'class',
   mat[lower.tri(mat)] <- t(mat)[lower.tri(mat)]
   intra <- diag(mat) <- diag(mat) / 2
   rownames(mat) <- colnames(mat) <- group.names
-  DT <- data.table(group=group.names, intra=intra, inter=rowSums(mat, drop=FALSE)-intra)
+  DT <- data.table(group=group.names, intra=intra, inter=rowSums(mat)-intra)
   DT[, total := intra + inter]
   setnames(DT, 'group', group)
   return(list(mat=mat, DT=DT))
