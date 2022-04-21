@@ -338,7 +338,7 @@ f_beta_m <- function(X, Y, diagMat, n, p, ny, dfR) {
   beta <- backsolve(R, crossprod(Q, Y), p)
   beta[QR$pivot, ] <- beta
   ehat <- Y - X %*% beta
-  s <- if (ny == 1L) sum(ehat^2) else .colSums(ehat^2, n, ny)
+  s <- if (ny == 1L) sum(ehat^2) else .colSums(ehat^2, n, ny, drop=FALSE)
   list(coefficients=beta, sigma=sqrt(s / dfR))
 }
 
@@ -373,9 +373,9 @@ f_beta_3d_g <- function(X, Y, regions, diagMat, n, p, ny=1L) {
 
 pvalArray <- function(res_boot, N=dim(res_boot)[1L] - 1L, ny=dim(res_boot)[3L]) {
   seqN <- seq_len(N)
-  gt0 <- colSums(res_boot[seqN, , ] > 0)
+  gt0 <- colSums(res_boot[seqN, , ] > 0, drop=FALSE)
   lt0 <- N - gt0  # Only differs if there are "x == 0" exactly
-  #lt0 <- colSums(res_boot[seqN, , ] < 0)
+  #lt0 <- colSums(res_boot[seqN, , ] < 0, drop=FALSE)
   pMat <- 2 * pmin.int(gt0, lt0) / N
   zeros <- which(res_boot[N + 1L, , ] == 0)
   if (length(zeros) > 0L) pMat[zeros] <- 1
