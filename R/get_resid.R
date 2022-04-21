@@ -89,8 +89,8 @@ get.resid <- function(dt.vol, covars, method=c('comb.groups', 'sep.groups'),
       lh <- '^l'
       rh <- '^r'
     }
-    DT.cov[, mean.lh := rowMeans(.SD), .SDcols=patterns(lh)]
-    DT.cov[, mean.rh := rowMeans(.SD), .SDcols=patterns(rh)]
+    DT.cov[, mean.lh := rowMeans(.SD, drop=FALSE), .SDcols=patterns(lh)]
+    DT.cov[, mean.rh := rowMeans(.SD, drop=FALSE), .SDcols=patterns(rh)]
 
     if (method == 'comb.groups') {
       res <- by_hemi(DT.cov, lh, rh, xcols, ...)
@@ -157,8 +157,8 @@ rstudent_mat <- function(X, Y) {
   res <- fits$residuals
 
   res2 <- res^2
-  var.hat <- t(colSums(res2) - t(res2)) / (fits$df.residual - 1L)
-  leverage <- colSums(tcrossprod(fits$cov.unscaled, X) * t(X))
+  var.hat <- t(colSums(res2, drop=FALSE) - t(res2)) / (fits$df.residual - 1L)
+  leverage <- colSums(tcrossprod(fits$cov.unscaled, X) * t(X), drop=FALSE)
   res / sqrt(var.hat * (1 - leverage))
 }
 
