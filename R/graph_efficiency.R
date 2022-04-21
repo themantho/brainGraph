@@ -99,7 +99,7 @@ efficiency <- function(g, type=c('local', 'nodal', 'global'), weights=NULL,
       }
     }
     Dinv <- 1 / D
-    eff <- colSums(Dinv * is.finite(Dinv), na.rm=TRUE, drop=FALSE) / (Nv - 1L)
+    eff <- colSums(Dinv * is.finite(Dinv), na.rm=TRUE) / (Nv - 1L)
     if (type == 'global') eff <- sum(eff) / length(eff)
   }
   return(eff)
