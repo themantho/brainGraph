@@ -54,6 +54,6 @@ hubness <- function(g, xfm.type=g$xfm.type, weights=NULL, prop.keep=0.2) {
   M <- matrix(c(-S, -btwn, Cp, Lp), nrow=Nv, ncol=4L)
   H <- matrix(0L, nrow=Nv, ncol=4L)
   for (i in 1L:4L) H[order(M[, i])[1L:cutoff], i] <- 1L
-  hubs <- rowSums(H)
+  hubs <- rowSums(H, drop=FALSE)
   return(hubs)
 }
