@@ -45,7 +45,7 @@ s_core <- function(g, W=NULL) {
       W[v.remove, ] <- W[, v.remove] <- 0
       ct <- ct + 1L
     }
-    if (sum(colSums(W) > 0) == 0L) break
+    if (sum(colSums(W, drop=FALSE) > 0) == 0L) break
   }
   return(s.core)
 }
