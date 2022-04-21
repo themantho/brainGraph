@@ -24,7 +24,7 @@ centr_lev <- function(g, A=NULL) {
   stopifnot(is_igraph(g))
 
   if (is.null(A)) A <- as_adj(g, sparse=FALSE, names=FALSE)
-  k <- colSums(A)
+  k <- colSums(A, drop=FALSE)
   lev.cent <- rep.int(NA, dim(A)[1L])
   # This is a tiny bit slower for larger graphs
 #  for (i in which(k > 0)) {
