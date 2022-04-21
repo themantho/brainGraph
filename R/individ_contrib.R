@@ -52,7 +52,7 @@ loo <- function(resids, corrs, level=c('global', 'regional')) {
     diffFun <- function(a, b) 1 - ade4::mantel.rtest(as.dist(a), as.dist(b), nrepet=1e3)$obs
   } else if (level == 'regional') {
     combFun <- rbind
-    diffFun <- function(a, b) colSums(abs(a - b))
+    diffFun <- function(a, b) colSums(abs(a - b), drop=FALSE)
   }
   if (!getDoParRegistered()) {
     cl <- makeCluster(getOption('bg.ncpus'))
@@ -118,7 +118,7 @@ aop <- function(resids, corrs, level=c('global', 'regional'), control.value=1L) 
     diffFun <- function(a, b) 1 - ade4::mantel.rtest(as.dist(a), as.dist(b), nrepet=1e3)$obs
   } else if (level == 'regional') {
     combFun <- rbind
-    diffFun <- function(a, b) data.table(t(colSums(abs(a - b))))
+    diffFun <- function(a, b) data.table(t(colSums(abs(a - b), drop=FALSE)))
   }
 
   if (!getDoParRegistered()) {
