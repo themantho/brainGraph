@@ -26,7 +26,7 @@
 #' since the mediator is always a graph metric, this should always be the case.
 #'
 #' @param covars A data table containing covariates of interest. It must include
-#'   columns for \code{getOption('bg.subject_id')}, \code{treat},
+#'   columns for \code{getOption('bg.subject_id')}, \code{treat}, 
 #'   \code{outcome}, and \code{covar.names}.
 #' @param mediator Character string; the name of the graph measure acting as
 #'   the \emph{mediating} variable
