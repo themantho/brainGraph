@@ -154,7 +154,7 @@ create_mats <- function(A.files, modality=c('dti', 'fmri'),
 
   A.norm.mean <- lapply(seq_along(mat.thresh), function(x)
                         abind(lapply(inds, function(y)
-                                     rowMeans(mats$A.norm.sub[[x]][, , y], dims=2L, drop=FALSE)), along=3L))
+                                     rowMeans(mats$A.norm.sub[[x]][, , y], dims=2L)), along=3L))
   if (threshold.by == 'density') {
     A.norm.mean <- lapply(seq_along(mat.thresh), function(x)
                           array(apply(A.norm.mean[[x]], 3L, function(y)
@@ -201,9 +201,9 @@ threshold_mean_sd <- function(A, mat.thresh, ...) {
   A.norm.sub <- vector('list', length(mat.thresh))
   # Threshold: mean + 2SD > mat.thresh
   dimA <- dim(A)
-  all.mean <- rowMeans(A, dims=2L, drop=FALSE)
+  all.mean <- rowMeans(A, dims=2L)
   all.means <- array(all.mean, dim=dimA)
-  all.sums <- rowSums((A - all.means)^2, dims=2L, drop=FALSE)
+  all.sums <- rowSums((A - all.means)^2, dims=2L)
   all.sd <- sqrt(all.sums / (dimA[3L] - 1L))
   all.thresh <- array(all.mean + (2 * all.sd), dim=dimA)
   for (x in seq_along(mat.thresh)) {
@@ -269,7 +269,7 @@ threshold_consensus <- function(A, mat.thresh, sub.thresh, inds, modality,
   for (x in seq_along(mat.thresh)) {
     A.bin[[x]] <- (A > mat.thresh[x]) + 0L
     A.bin.sums[[x]] <- lapply(inds, function(z)
-                              rowSums(A.bin[[x]][, , z], dims=2L, drop=FALSE))
+                              rowSums(A.bin[[x]][, , z], dims=2L))
     A.bin.sums[[x]] <- abind(A.bin.sums[[x]], along=3L)
   }
 
@@ -349,7 +349,7 @@ normalize_mats <- function(A, divisor, div.files, P) {
   if (divisor == 'none') {
     A.norm <- A
   } else if (divisor == 'rowSums') {
-    A.norm <- array(apply(A, 3L, function(x) x / rowSums(x, drop=FALSE)), dim=dimA)
+    A.norm <- array(apply(A, 3L, function(x) x / rowSums(x)), dim=dimA)
 
   } else {
     stopifnot(!is.null(div.files))
@@ -416,7 +416,7 @@ apply_thresholds <- function(sub.mats, group.mats, W.files, inds) {
   W.norm.mean <- lapply(seq_along(group.mats), function(x)
                         lapply(seq_len(ng), function(g)
                                ifelse(group.mats[[x]][, , g] > 0,
-                                      rowMeans(W.norm.sub[[x]][, , inds[[g]]], dims=2L, drop=FALSE),
+                                      rowMeans(W.norm.sub[[x]][, , inds[[g]]], dims=2L),
                                       0)))
   W.norm.mean <- lapply(W.norm.mean, function(x) abind(x, along=3L))
   return(list(W=W, W.norm.sub=W.norm.sub, W.norm.mean=W.norm.mean))
