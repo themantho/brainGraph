@@ -222,10 +222,9 @@ brainGraph_GLM <- function(g.list, covars, measure, contrasts, con.type=c('t', '
   null.thresh <- apply(null.max, 2L, mySort, index)
   names(null.thresh) <- glmSetup$con.name
   compfun <- switch(alt,
-                    # added drop = F to prevent dimension from being dropped in R>4.0
-                    two.sided=function(x, y) (rowSums(abs(x) >= abs(y), na.rm=TRUE, drop=FALSE) + 1L),
-                    less=function(x, y) (rowSums(x <= y, na.rm=TRUE, drop=FALSE) + 1L),
-                    greater=function(x, y) (rowSums(x >= y, na.rm=TRUE, drop=FALSE) + 1L))
+                    two.sided=function(x, y) (rowSums(abs(x) >= abs(y), na.rm=TRUE) + 1L),
+                    less=function(x, y) (rowSums(x <= y, na.rm=TRUE) + 1L),
+                    greater=function(x, y) (rowSums(x >= y, na.rm=TRUE) + 1L))
   p.perm <- vapply(seq_len(nC), function(x) compfun(t(matrix(null.max[, x], N, ny)), obs_stats[runX, 3L, x]),
                    numeric(ny)) / (N + 1L)
   dim(p.perm) <- c(ny, nC)
