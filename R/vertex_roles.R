@@ -72,7 +72,7 @@ gateway_coeff <- function(g, memb, centr=c('btwn.cent', 'degree', 'strength'),
 
   barCis <- Cis / Cn
   gis <- 1 - barKis * barCis
-  1 - ((1 / Ki^2) * rowSums(Kis^2 * gis^2, na.rm=TRUE, drop=FALSE))
+  1 - ((1 / Ki^2) * rowSums(Kis^2 * gis^2, na.rm=TRUE))
 }
 
 #' Participation coefficient
@@ -110,7 +110,7 @@ part_coeff <- function(g, memb, A=NULL, weighted=FALSE) {
   Ki <- colSums(A)
   N <- max(memb)
   Kis <- t(rowsum(A, memb))
-  1 - ((1 / Ki^2) * rowSums(Kis^2, drop=FALSE))
+  1 - ((1 / Ki^2) * rowSums(Kis^2))
 }
 
 #' Calculate vertex within-module degree z-score
