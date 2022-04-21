@@ -32,7 +32,7 @@ mean_distance_wt <- function(g, level=c('graph', 'vertex'), weights=NULL,
   if (is.null(D)) D <- distances(g, weights=weights)
   D[is.infinite(D)] <- diag(D) <- NA
   Lp <- switch(level,
-               vertex=rowMeans(D, na.rm=TRUE),
+               vertex=rowMeans(D, na.rm=TRUE, drop=FALSE),
                graph=mean(D, na.rm=TRUE))
   Lp[is.nan(Lp)] <- 0
   return(Lp)
