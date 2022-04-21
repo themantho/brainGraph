@@ -313,7 +313,7 @@ boot_mediate <- function(X.m, y.m, X.y, y.y, mediator, treat, treatstr, int, N) 
       effects.tmp[, e, ] <- fun_effects(Xy.diff, beta.y, Xcols, bcols, regions)
     }
 
-    return(colMeans(effects.tmp, drop=FALSE))
+    return(colMeans(effects.tmp))
   }
   res <- array(res, dim=c(4L, N + 1L, ny))
   if (isFALSE(int)) res[c(2L, 4L), , ] <- res[ecols, , ]
@@ -338,7 +338,7 @@ f_beta_m <- function(X, Y, diagMat, n, p, ny, dfR) {
   beta <- backsolve(R, crossprod(Q, Y), p)
   beta[QR$pivot, ] <- beta
   ehat <- Y - X %*% beta
-  s <- if (ny == 1L) sum(ehat^2) else .colSums(ehat^2, n, ny, drop=FALSE)
+  s <- if (ny == 1L) sum(ehat^2) else .colSums(ehat^2, n, ny)
   list(coefficients=beta, sigma=sqrt(s / dfR))
 }
 
@@ -373,9 +373,9 @@ f_beta_3d_g <- function(X, Y, regions, diagMat, n, p, ny=1L) {
 
 pvalArray <- function(res_boot, N=dim(res_boot)[1L] - 1L, ny=dim(res_boot)[3L]) {
   seqN <- seq_len(N)
-  gt0 <- colSums(res_boot[seqN, , ] > 0, drop=FALSE)
+  gt0 <- colSums(res_boot[seqN, , ] > 0)
   lt0 <- N - gt0  # Only differs if there are "x == 0" exactly
-  #lt0 <- colSums(res_boot[seqN, , ] < 0, drop=FALSE)
+  #lt0 <- colSums(res_boot[seqN, , ] < 0)
   pMat <- 2 * pmin.int(gt0, lt0) / N
   zeros <- which(res_boot[N + 1L, , ] == 0)
   if (length(zeros) > 0L) pMat[zeros] <- 1
