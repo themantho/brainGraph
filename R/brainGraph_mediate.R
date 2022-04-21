@@ -313,7 +313,7 @@ boot_mediate <- function(X.m, y.m, X.y, y.y, mediator, treat, treatstr, int, N) 
       effects.tmp[, e, ] <- fun_effects(Xy.diff, beta.y, Xcols, bcols, regions)
     }
 
-    return(colMeans(effects.tmp))
+    return(colMeans(effects.tmp, drop=FALSE))
   }
   res <- array(res, dim=c(4L, N + 1L, ny))
   if (isFALSE(int)) res[c(2L, 4L), , ] <- res[ecols, , ]
